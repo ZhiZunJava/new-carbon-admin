@@ -260,7 +260,7 @@ export default {
       const id = row.id || this.ids
       getProductModel(id).then(response => {
         this.form = response.data;
-        getMaterialInfo(this.form.materialId).then(res => {
+        getMaterialInfo(this.form.productId).then(res => {
           this.form.productName = res.data.name;
         });
         this.mesProductModelDetailList = response.data.mesProductModelDetailList;

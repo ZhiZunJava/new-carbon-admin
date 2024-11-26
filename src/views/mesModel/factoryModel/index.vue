@@ -55,8 +55,9 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px" :inline="true">
         <el-form-item label="产品" prop="materialName">
           <el-input v-model="form.materialName" placeholder="请选择产品">
+            <el-button slot="append" @click="choose">选择</el-button>
           </el-input>
-          <el-button @click="choose">选择</el-button>
+          
         </el-form-item>
         <el-form-item label="生产线名称" prop="productLineName">
           <el-input v-model="form.productLineName" placeholder="请输入生产线名称" />
