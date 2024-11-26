@@ -101,7 +101,7 @@
           <el-table-column label="物料" prop="materialName" align="center">
             <template slot-scope="scope">
               <el-form-item :prop="'mesProductModelDetailList.' + scope.$index + '.materialName'"
-                :rules="rules.materialName">
+                :rules="rules.materialName" size="small" class="xzwl">
                 <el-input v-model="scope.row.materialName" placeholder="请选择物料" disabled>
                   <el-button slot="append" @click="OpenMaterial('material', scope.$index)">选择</el-button>
                 </el-input>
@@ -117,7 +117,7 @@
           <el-table-column label="备注" prop="detailRemark" width="150">
             <template slot-scope="scope">
               <el-form-item :prop="'mesProductModelDetailList.' + scope.$index + '.detailRemark'"
-                :rules="rules.detailRemark">
+                :rules="rules.detailRemark" size="small" class="xzwl">
                 <el-input v-model="scope.row.detailRemark" placeholder="请输入备注" />
               </el-form-item>
             </template>
@@ -138,6 +138,7 @@
 import { listProductModel, getProductModel, delProductModel, addProductModel, updateProductModel, exportProductModel } from "@/api/mesModel/productModel";
 import MaterialSelect from "../../../components/Material/MaterialSelect.vue";
 import Editor from '@/components/MyEditor';
+import { getMaterialInfo } from "../../../api/material/materialInfo";
 
 export default {
   name: "ProductModel",
@@ -220,7 +221,10 @@ export default {
     reset() {
       this.form = {
         id: null,
-        materialId: null,
+        productId: null,
+        productName: null,
+        productModel: null,
+        productSpecification: null,
         modelName: null,
         remark: null,
         mesProductModelDetailList: [],
@@ -256,6 +260,9 @@ export default {
       const id = row.id || this.ids
       getProductModel(id).then(response => {
         this.form = response.data;
+        getMaterialInfo(this.form.materialId).then(res => {
+          this.form.productName = res.data.name;
+        });
         this.mesProductModelDetailList = response.data.mesProductModelDetailList;
         this.open = true;
         this.title = "修改产品建模";
@@ -303,6 +310,7 @@ export default {
     /** 产品模型明细添加按钮操作 */
     handleAddMesProductModelDetail() {
       let obj = {};
+      obj.materialId = "";
       obj.materialName = "";
       obj.materialModel = "";
       obj.materialSpecification = "";
@@ -352,6 +360,7 @@ export default {
       const row = data[0];
 
       if (this.materialType === 'product') {
+        this.form.materialId = row.id;
         this.form.productName = row.name;
         this.form.productModel = row.model;
         this.form.productSpecification = row.specification;
@@ -361,9 +370,19 @@ export default {
         obj.materialModel = row.model;
         obj.materialSpecification = row.specification;
         obj.materialUnit = row.unit;
+        obj.materialId = row.id;
       }
       this.CloseMaterial()
     }
   }
 };
 </script>
+
+<style lang="scss">
+.xzwl {
+  margin-bottom: 0px !important;
+  .el-form-item__content {
+    margin-left: 0px !important;
+  }
+}
+</style>

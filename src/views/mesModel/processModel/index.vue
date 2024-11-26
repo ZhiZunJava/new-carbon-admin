@@ -2,31 +2,23 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="工艺名称" prop="processName">
-        <el-input v-model="queryParams.processName" placeholder="请输入工艺名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.processName" placeholder="请输入工艺名称" clearable size="small" @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button v-no-more-click type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button v-no-more-click icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['scm:processmodel:add']">新增</el-button>
+        <el-button v-no-more-click type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['mesModel:processModel:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['scm:processmodel:edit']">修改</el-button>
+        <el-button v-no-more-click type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate" v-hasPermi="['mesModel:processModel:edit']">修改</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete"
-          v-hasPermi="['scm:processmodel:remove']">删除</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['scm:processmodel:export']">导出</el-button>
+        <el-button v-no-more-click type="danger" plain icon="el-icon-delete" size="mini" :disabled="multiple" @click="handleDelete" v-hasPermi="['mesModel:processModel:remove']">删除</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -36,63 +28,64 @@
       <el-table-column label="编号" align="center" prop="id" />
       <el-table-column label="工艺名称" align="center" prop="processName" />
       <el-table-column label="产品" align="center" prop="materialName" />
-      <el-table-column label="型号" align="center" prop="materialModel" />
-      <el-table-column label="规格" align="center" prop="materialSpecification" />
-      <el-table-column label="单位" align="center" prop="materialUnit" />
+      <el-table-column label="型号" prop="materialModel">
+      </el-table-column>
+      <el-table-column label="规格" prop="materialSpecification">
+      </el-table-column>
+      <el-table-column label="单位" prop="materialUnit">
+      </el-table-column>
       <el-table-column label="单位耗电量" align="center" prop="powerConsume" />
       <el-table-column label="备注" align="center" prop="remark" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['scm:processmodel:edit']">修改</el-button>
-          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['scm:processmodel:remove']">删除</el-button>
+          <el-button v-no-more-click size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['mesModel:processModel:edit']">修改</el-button>
+          <el-button v-no-more-click size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)" v-hasPermi="['mesModel:processModel:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="getList" />
 
     <!-- 添加或修改工艺建模对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog v-if="open" :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="产品" prop="materialName">
-          <el-input v-model="form.materialName" placeholder="请选择产品" />
-          <el-button @click="choose">选择</el-button>
-        </el-form-item>
-        <el-form-item label="物料档案编号" prop="materialId">
-          <el-input v-model="form.materialId" placeholder="请输入物料档案编号" />
+          <el-input v-model="form.materialName" placeholder="请选择产品" disabled>
+            <el-button v-no-more-click slot="append" @click="handleSelectProduct">选择</el-button>
+          </el-input>
         </el-form-item>
         <el-form-item label="工艺名称" prop="processName">
           <el-input v-model="form.processName" placeholder="请输入工艺名称" />
         </el-form-item>
-        <el-form-item label="工艺描述" prop="description">
-          <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
         <el-form-item label="单位耗电量" prop="powerConsume">
-          <el-input v-model="form.powerConsume" placeholder="请输入单位耗电量" />
+          <el-input v-model="form.powerConsume" placeholder="请输入耗电量" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" placeholder="请输入备注" />
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="工艺描述">
+          <editor v-model="form.description" :min-height="192" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button v-no-more-click type="primary" @click="submitForm">确 定</el-button>
+        <el-button v-no-more-click @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <MaterialSelect :open="materialOpen" @onCancel="OpenMaterial" @onSelected="SelectMaterial" />
+    <!--选择产品档案-->
+    <MaterialSelect :open="productSelectOpen" @onCancel="handleProductCancel" @onSelected="handleProductSelected"></MaterialSelect>
   </div>
 </template>
 
 <script>
-import { listProcessModel, getProcessModel, deleteProcessModel, addProcessModel, putProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
-import MaterialSelect from "@/components/Material/MaterialSelect.vue";
+import { listProcessModel, getProcessModel, delProcessModel, addProcessModel, updateProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
+import Editor from '@/components/MyEditor';
+import MaterialSelect from "@/components/Material/MaterialSelect";
 export default {
   name: "ProcessModel",
   components: {
-    MaterialSelect
+    Editor,
+    MaterialSelect,
   },
   data() {
     return {
@@ -114,27 +107,32 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      productSelectOpen: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        materialId: null,
         processName: null,
       },
-      materialList: null,
       // 表单参数
       form: {},
-      materialOpen: false,
       // 表单校验
       rules: {
-        materialId: [
-          { required: true, message: "物料档案编号不能为空", trigger: "blur" }
+        materialName: [
+          { required: true, message: "物料不能为空", trigger: "blur" }
         ],
         processName: [
-          { required: true, message: "工艺名称不能为空", trigger: "blur" }
+          { required: true, message: "工艺名称不能为空", trigger: "blur" },
+          { max: 20, message: "工艺名称最多20个字符", trigger: "blur" }
         ],
         powerConsume: [
-          { required: true, message: "单位耗电量不能为空", trigger: "blur" }
+          { required: true, message: "耗电量不能为空", trigger: "blur" },
+          { max: 10, message: "单位耗电量最多10个字符", trigger: "blur" }
         ],
+        remark:[
+          { max: 100, message: "备注最多100个字符", trigger: "blur" }
+        ]
       }
     };
   },
@@ -142,18 +140,19 @@ export default {
     this.getList();
   },
   methods: {
-    SelectMaterial(data) {
-      this.materialList = data[0]
-      this.form.materialName = this.materialList.name
-      this.form.id = this.materialList.materialId
-      this.form.materialId = this.materialList.materialId
-      this.materialOpen = false
+    handleSelectProduct() {
+      this.productSelectOpen = true;
     },
-    choose() {
-      this.materialOpen = true
+    handleProductSelected(list) {
+      if (list && list.length > 0) {
+        let material = list[0];
+        this.form.materialId = material.id;
+        this.form.materialName = material.name;
+      }
+      this.productSelectOpen = false;
     },
-    OpenMaterial() {
-      this.materialOpen = false
+    handleProductCancel() {
+      this.productSelectOpen = false;
     },
     /** 查询工艺建模列表 */
     getList() {
@@ -174,6 +173,7 @@ export default {
       this.form = {
         id: null,
         materialId: null,
+        materialName: null,
         processName: null,
         description: null,
         powerConsume: null,
@@ -218,7 +218,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            putProcessModel(this.form).then(response => {
+            updateProcessModel(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
@@ -241,7 +241,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(function () {
-        return deleteProcessModel(ids);
+        return delProcessModel(ids);
       }).then(() => {
         this.getList();
         this.msgSuccess("删除成功");

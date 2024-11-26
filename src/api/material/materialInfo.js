@@ -9,4 +9,9 @@ export function listMaterialInfo(query) {
   })
 }
 
-
+export function getMaterialInfo(id) {
+  return request({
+    url: '/material/materialInfo/' + id,
+    method: 'get'
+  })
+}
