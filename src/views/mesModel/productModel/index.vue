@@ -54,21 +54,34 @@
 
     <!-- 添加或修改产品建模对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px" :inline="true">
-        <el-form-item label="产品" prop="productName" disable>
-          <el-input v-model="form.productName" placeholder="选择产品名称" disabled>
-            <el-button slot="append" @click="OpenMaterial('product')">选择</el-button>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="型号" prop="productModel">
-          <el-input v-model="form.productModel" placeholder="请输入产品型号" disabled />
-        </el-form-item>
-        <el-form-item label="规格" prop="productSpecification">
-          <el-input v-model="form.productSpecification" placeholder="请输入产品规格" disabled />
-        </el-form-item>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+        <el-row :gutter="0" class="mb8">
+          <el-col :span="8">
+            <el-form-item label="产品" prop="productName" disable>
+              <el-input v-model="form.productName" placeholder="选择产品名称" disabled>
+                <el-button slot="append" @click="OpenMaterial('product')">选择</el-button>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="产品型号" prop="productModel">
+              <el-input v-model="form.productModel" placeholder="请输入产品型号" disabled />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="产品规格" prop="productSpecification">
+              <el-input v-model="form.productSpecification" placeholder="请输入产品规格" disabled />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="模型名称" prop="modelName">
+              <el-input v-model="form.modelName" placeholder="请输入模型名称" />
+            </el-form-item>
 
-        <el-form-item label="模型名称" prop="modelName">
-          <el-input v-model="form.modelName" placeholder="请输入模型名称" />
+          </el-col>
+        </el-row>
+        <el-form-item label="备注" prop="remark">
+          <Editor v-model="form.remark" :min-height="200"></Editor>
         </el-form-item>
         <el-divider content-position="center">产品模型明细信息</el-divider>
         <el-row :gutter="10" class="mb8">
@@ -124,11 +137,13 @@
 <script>
 import { listProductModel, getProductModel, delProductModel, addProductModel, updateProductModel, exportProductModel } from "@/api/mesModel/productModel";
 import MaterialSelect from "../../../components/Material/MaterialSelect.vue";
+import Editor from '@/components/MyEditor';
 
 export default {
   name: "ProductModel",
   components: {
-    MaterialSelect
+    MaterialSelect,
+    Editor
   },
   data() {
     return {
@@ -164,6 +179,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
+        productName: [
+          { required: true, message: "产品名称不能为空", trigger: "blur" }
+        ],
         modelName: [{ required: true, message: "模型名称不能为空", trigger: "blur" }]
       },
       materialShow: false,
@@ -337,7 +355,6 @@ export default {
         this.form.productName = row.name;
         this.form.productModel = row.model;
         this.form.productSpecification = row.specification;
-
       } else if (this.materialType === 'material') {
         let obj = this.mesProductModelDetailList[this.materialTableIndex];
         obj.materialName = row.name;

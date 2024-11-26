@@ -101,7 +101,6 @@
           <el-table-column label="生产日期" align="center" prop="productDate" />
           <el-table-column label="生产批号" align="center" prop="batchNo" />
           <el-table-column label="制造商" align="center" prop="manufacturer" />
-
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
