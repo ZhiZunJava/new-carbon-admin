@@ -72,15 +72,10 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button type="success" plain icon="el-icon-edit" size="mini" :disabled="single" @click="handleUpdate"
-          v-hasPermi="['wmsApply:inWarahouseApply:edit']">修改</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="inWarahouseApplyList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table v-loading="loading" :data="inWarahouseApplyList">
       <el-table-column label="编号" align="center" prop="id" />
       <el-table-column label="申请单号" align="center" prop="serialNo" width="100" />
       <el-table-column label="关联单据号" align="center" prop="bizBillId" width="100" />
@@ -191,9 +186,7 @@
           <el-input v-model="form.remark" placeholder="请输入备注" disabled />
         </el-form-item>
         <el-divider content-position="center">入库申请明细信息</el-divider>
-        <el-table :data="wmsInWarehouseApplyDetailList" :row-class-name="rowWmsInWarehouseApplyDetailIndex"
-          @selection-change="handleWmsInWarehouseApplyDetailSelectionChange" ref="wmsInWarehouseApplyDetail">
-          <el-table-column type="selection" width="50" align="center" />
+        <el-table :data="wmsInWarehouseApplyDetailList" :row-class-name="rowWmsInWarehouseApplyDetailIndex" ref="wmsInWarehouseApplyDetail">
           <el-table-column label="序号" align="center" prop="index" width="50" />
           <el-table-column label="物料" prop="materialName" width="300" align="center">
             <template slot-scope="scope">
@@ -223,7 +216,7 @@
                   <el-option v-for="dict in scope.row.whLocationOptions" :key="dict.id" :label="dict.name" :value="dict.id" />
                 </el-select>
               </el-form-item>
-            </template>
+            </template>   
           </el-table-column>
           <el-table-column label="库区" prop="whRegionId" width="150">
             <template slot-scope="scope">
@@ -285,21 +278,21 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-no-more-click v-if="form.applyStatus != '2'" type="primary" @click="submitForm('1')">通
+        <el-button v-if="form.applyStatus != '2'" type="primary" @click="submitForm('1')">通
           过</el-button>
-        <el-button v-no-more-click v-if="form.applyStatus != '2'" type="warning" @click="submitForm('0')">驳
+        <el-button v-if="form.applyStatus != '2'" type="warning" @click="submitForm('0')">驳
           回</el-button>
-        <el-button v-no-more-click @click="cancel">取 消</el-button>
+        <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { listInWarahouseApplyAudit, auditInWarahouseApply, listInWarahouseApply, getInWarahouseApply, delInWarahouseApply, addInWarahouseApply, updateInWarahouseApply, exportInWarahouseApply, listWarehouseRegion, listWarehouseLocation  } from "@/api/wmsApply/inWarahouseApply";
+import { listInWarahouseApplyAudit, auditInWarahouseApply, getInWarahouseApply, listWarehouseRegion, listWarehouseLocation  } from "@/api/wmsApply/inWarahouseApply";
 
 export default {
-  name: "InWarahouseApply",
+  name: "InWarahouseApplyAudit",
   components: {
   },
   data() {
@@ -513,18 +506,6 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加入库申请";
-    },
     //获取库区选项
     getWhRegionOpts(val, index) {
       let queryParams = {
@@ -592,23 +573,6 @@ export default {
       obj.productDate = "";
       obj.manufacturer = "";
       this.wmsInWarehouseApplyDetailList.push(obj);
-    },
-    /** 入库申请明细删除按钮操作 */
-    handleDeleteWmsInWarehouseApplyDetail() {
-      if (this.checkedWmsInWarehouseApplyDetail.length == 0) {
-        this.$alert("请先选择要删除的入库申请明细数据", "提示", { confirmButtonText: "确定", });
-      } else {
-        this.wmsInWarehouseApplyDetailList.splice(this.checkedWmsInWarehouseApplyDetail[0].index - 1, 1);
-      }
-    },
-    /** 单选框选中数据 */
-    handleWmsInWarehouseApplyDetailSelectionChange(selection) {
-      if (selection.length > 1) {
-        this.$refs.wmsInWarehouseApplyDetail.clearSelection();
-        this.$refs.wmsInWarehouseApplyDetail.toggleRowSelection(selection.pop());
-      } else {
-        this.checkedWmsInWarehouseApplyDetail = selection;
-      }
     },
     /** 入库申请明细序号 */
     rowWmsInWarehouseApplyDetailIndex({ row, rowIndex }) {
