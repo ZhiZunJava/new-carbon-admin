@@ -186,7 +186,8 @@
           <el-input v-model="form.remark" placeholder="请输入备注" disabled />
         </el-form-item>
         <el-divider content-position="center">入库申请明细信息</el-divider>
-        <el-table :data="wmsInWarehouseApplyDetailList" :row-class-name="rowWmsInWarehouseApplyDetailIndex" ref="wmsInWarehouseApplyDetail">
+        <el-table :data="wmsInWarehouseApplyDetailList" :row-class-name="rowWmsInWarehouseApplyDetailIndex"
+          ref="wmsInWarehouseApplyDetail">
           <el-table-column label="序号" align="center" prop="index" width="50" />
           <el-table-column label="物料" prop="materialName" width="300" align="center">
             <template slot-scope="scope">
@@ -202,8 +203,9 @@
             <template slot-scope="scope">
               <el-form-item class="xzwl" size="small"
                 :prop="'wmsInWarehouseApplyDetailList.' + scope.$index + '.warehouseId'" :rules="rules.warehouseId">
-                <el-select v-model="scope.row.warehouseId" placeholder="请选择仓库"disabled>
-                  <el-option v-for="dict in warehouseIdOptions" :key="dict.dictValue" :label="dict.dictLabel" :value="dict.dictValue"></el-option>
+                <el-select v-model="scope.row.warehouseId" placeholder="请选择仓库" disabled>
+                  <el-option v-for="dict in warehouseIdOptions" :key="dict.dictValue" :label="dict.dictLabel"
+                    :value="dict.dictValue"></el-option>
                 </el-select>
               </el-form-item>
             </template>
@@ -213,17 +215,19 @@
               <el-form-item class="xzwl" size="small"
                 :prop="'wmsInWarehouseApplyDetailList.' + scope.$index + '.whLocationId'" :rules="rules.whLocationId">
                 <el-select v-model="scope.row.whLocationId" placeholder="请选择库位" disabled>
-                  <el-option v-for="dict in scope.row.whLocationOptions" :key="dict.id" :label="dict.name" :value="dict.id" />
+                  <el-option v-for="dict in scope.row.whLocationOptions" :key="dict.id" :label="dict.name"
+                    :value="dict.id" />
                 </el-select>
               </el-form-item>
-            </template>   
+            </template>
           </el-table-column>
           <el-table-column label="库区" prop="whRegionId" width="150">
             <template slot-scope="scope">
               <el-form-item class="xzwl" size="small"
                 :prop="'wmsInWarehouseApplyDetailList.' + scope.$index + '.whRegionId'" :rules="rules.whRegionId">
                 <el-select v-model="scope.row.whRegionId" placeholder="请选择库区" disabled>
-                  <el-option v-for="dict in scope.row.whRegionOptions" :key="dict.id" :label="dict.name" :value="dict.id" />
+                  <el-option v-for="dict in scope.row.whRegionOptions" :key="dict.id" :label="dict.name"
+                    :value="dict.id" />
                 </el-select>
               </el-form-item>
             </template>
@@ -289,7 +293,7 @@
 </template>
 
 <script>
-import { listInWarahouseApplyAudit, auditInWarahouseApply, getInWarahouseApply, listWarehouseRegion, listWarehouseLocation  } from "@/api/wmsApply/inWarahouseApply";
+import { listInWarahouseApplyAudit, auditInWarahouseApply, getInWarahouseApply, listWarehouseRegion, listWarehouseLocation } from "@/api/wmsApply/inWarahouseApply";
 
 export default {
   name: "InWarahouseApplyAudit",
@@ -367,9 +371,7 @@ export default {
       // 表单校验
       rules: {
         auditComment: [
-          {
-            validator: checkAuditComment, trigger: 'blur'
-          },
+          { validator: checkAuditComment, trigger: 'blur' },
           { max: 100, message: "审核意见最多100个字符", trigger: "blur" }
         ]
       }
