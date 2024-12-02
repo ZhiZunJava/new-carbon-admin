@@ -25,7 +25,6 @@ export function auditApply(data) {
     data: data
   })
 }
-
 // 查询采购申请详细
 export function getApply(id) {
   return request({
