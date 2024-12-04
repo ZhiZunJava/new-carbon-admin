@@ -118,7 +118,7 @@
           <el-input v-model="form.remark" placeholder="请输入备注" />
         </el-form-item>
         <el-divider content-position="center">退货明细信息</el-divider>
-        <el-row :gutter="10" class="mb8">
+        <!-- <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
             <el-button type="primary" icon="el-icon-plus" size="mini"
               @click="handleAddScmSaleReturnDetail">添加</el-button>
@@ -127,7 +127,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini"
               @click="handleDeleteScmSaleReturnDetail">删除</el-button>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-table :data="scmSaleReturnDetailList" :row-class-name="rowScmSaleReturnDetailIndex"
           @selection-change="handleScmSaleReturnDetailSelectionChange" ref="scmSaleReturnDetail">
           <el-table-column type="selection" width="50" align="center" />
@@ -378,6 +378,12 @@ export default {
               this.msgError('退货物料[' + detail.materialName + ']退货数量不能大于发货数量');
               return false;
             }
+
+            if (detail.returnQuantity <= 0) {
+              this.msgError('退货物料[' + detail.materialName + ']退货数量必须大于0');
+              return false;
+            }
+            
           }
 
           if (this.form.id != null) {

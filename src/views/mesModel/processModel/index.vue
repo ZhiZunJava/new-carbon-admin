@@ -58,8 +58,10 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="产品" prop="materialName">
-          <el-input v-model="form.materialName" placeholder="请选择产品" />
-          <el-button @click="choose">选择</el-button>
+          <el-input v-model="form.materialName" placeholder="请选择产品">
+            <el-button slot="append" @click="choose">选择</el-button>
+          </el-input>
+
         </el-form-item>
         <el-form-item label="物料档案编号" prop="materialId">
           <el-input v-model="form.materialId" placeholder="请输入物料档案编号" />
@@ -87,7 +89,7 @@
 </template>
 
 <script>
-import { listProcessModel, getProcessModel, deleteProcessModel, addProcessModel, putProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
+import { listProcessModel, getProcessModel, deleteProcessModel, addProcessModel, updateProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
 import MaterialSelect from "@/components/Material/MaterialSelect.vue";
 export default {
   name: "ProcessModel",
@@ -143,10 +145,12 @@ export default {
   },
   methods: {
     SelectMaterial(data) {
-      this.materialList = data[0]
-      this.form.materialName = this.materialList.name
-      this.form.id = this.materialList.materialId
-      this.form.materialId = this.materialList.materialId
+      if (data && data.length > 0) {
+        const res = data[0]
+        this.form.materialName = res.name
+        // this.form.id = res.id
+        this.form.materialId = res.id
+      }
       this.materialOpen = false
     },
     choose() {
@@ -218,7 +222,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            putProcessModel(this.form).then(response => {
+            updateProcessModel(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();

@@ -278,7 +278,7 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" type="primary" @click="saveForm">
+        <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" type="warning" @click="saveForm">
           保存
         </el-button>
         <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" type="primary" @click="submitForm">
