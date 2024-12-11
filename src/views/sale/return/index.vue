@@ -14,7 +14,7 @@
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="客户名称" prop="customerId">
-        <el-select v-model="queryParams.customerId" placeholder="请选择客户id" clearable filterable size="small">
+        <el-select v-model="queryParams.customerId" placeholder="请选择客户" clearable filterable size="small">
           <el-option v-for="dict in customerIdOptions" :key="dict.dictValue" :label="dict.dictLabel"
             :value="dict.dictValue" />
         </el-select>
@@ -162,7 +162,7 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm">{{ form.id ? '保 存' : '确 定'}}</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>

@@ -234,8 +234,7 @@
               <el-form-item :prop="'scmSaleContractDetailList.' + scope.$index + '.materialName'"
                 :rules="rules.materialName">
                 <el-input v-model="scope.row.materialName" placeholder="请选择物料" disabled>
-                  <el-button v-no-more-click slot="append" @click="openMaterialSelect(scope.$index)"
-                    :disabled="form.auditStatus != '1' && form.applyStatus != '1' ? false : true">选择</el-button>
+                  <el-button v-no-more-click slot="append" @click="openMaterialSelect(scope.$index)">选择</el-button>
                 </el-input>
               </el-form-item>
             </template>
@@ -246,16 +245,14 @@
           <el-table-column label="单价" prop="price" width="150">
             <template slot-scope="scope">
               <el-form-item :prop="'scmSaleContractDetailList.' + scope.$index + '.price'" :rules="rules.price">
-                <el-input v-model="scope.row.price" placeholder="请输入单价"
-                  :disabled="form.auditStatus != '1' && form.applyStatus != '1' ? false : true" />
+                <el-input v-model="scope.row.price" placeholder="请输入单价" />
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column label="订货数量" prop="quantity" width="150">
             <template slot-scope="scope">
               <el-form-item :prop="'scmSaleContractDetailList.' + scope.$index + '.quantity'" :rules="rules.quantity">
-                <el-input v-model.number="scope.row.quantity" placeholder="请输入订货数量"
-                  :disabled="form.auditStatus != '1' && form.applyStatus != '1' ? false : true" />
+                <el-input v-model.number="scope.row.quantity" placeholder="请输入订货数量" />
               </el-form-item>
             </template>
           </el-table-column>
@@ -270,21 +267,20 @@
             <template slot-scope="scope">
               <el-form-item :prop="'scmSaleContractDetailList.' + scope.$index + '.detailRemark'"
                 :rules="rules.detailRemark">
-                <el-input v-model="scope.row.detailRemark" placeholder="请输入备注"
-                  :disabled="form.auditStatus != '1' && form.applyStatus != '1' ? false : true" />
+                <el-input v-model="scope.row.detailRemark" placeholder="请输入备注" />
               </el-form-item>
             </template>
           </el-table-column>
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" type="warning" @click="saveForm">
+        <el-button v-if="form.auditStatus != '1'" type="warning" @click="saveForm">
           保存
         </el-button>
-        <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" type="primary" @click="submitForm">
+        <el-button v-if="form.auditStatus != '1'" type="primary" @click="submitForm">
           提交
         </el-button>
-        <el-button v-if="form.auditStatus != '1' && form.applyStatus != '1'" @click="cancel">取 消</el-button>
+        <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
