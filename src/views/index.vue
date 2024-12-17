@@ -53,8 +53,16 @@
               <el-table-column label="已产数量" align="center" prop="productQuantity" />
               <el-table-column label="单位耗电量" align="center" prop="powerConsume" />
               <el-table-column label="总耗电量" align="center" prop="totalPowerConsume" />
-              <el-table-column label="单位碳排放" align="center" prop="carbonEmission" />
-              <el-table-column label="总碳排放" align="center" prop="totalCarbonEmission" />
+              <el-table-column label="单位碳排放" align="center" prop="carbonEmission" >
+                <template slot-scope="scope">
+                  {{ scope.row.carbonEmission.toFixed(2) }}
+                </template>
+              </el-table-column>
+              <el-table-column label="总碳排放" align="center" prop="totalCarbonEmission" >
+                <template slot-scope="scope">
+                  {{ scope.row.totalCarbonEmission.toFixed(2) }}
+                </template>
+              </el-table-column>
             </el-table>
           </div>
         </el-card>
@@ -71,8 +79,16 @@
               <el-table-column label="已产数量" align="center" prop="productQuantity" />
               <el-table-column label="单位耗电量" align="center" prop="powerConsume" />
               <el-table-column label="总耗电量" align="center" prop="totalPowerConsume" />
-              <el-table-column label="单位碳排放" align="center" prop="carbonEmission" />
-              <el-table-column label="总碳排放" align="center" prop="totalCarbonEmission" />
+              <el-table-column label="单位碳排放" align="center" prop="carbonEmission" >
+                <template slot-scope="scope">
+                  {{ scope.row.carbonEmission.toFixed(2) }}
+                </template>
+              </el-table-column>
+              <el-table-column label="总碳排放" align="center" prop="totalCarbonEmission" >
+                <template slot-scope="scope">
+                  {{ scope.row.totalCarbonEmission.toFixed(2) }}
+                </template>
+              </el-table-column>
             </el-table>
           </div>
         </el-card>
@@ -234,39 +250,35 @@ export default {
           {
             name: '总能耗',
             type: 'treemap',
+            visibleMin: 300,
+            label: {
+              show: true,
+              formatter: '{b}'
+            },
+            itemStyle: {
+              borderColor: '#fff'
+            },
+            levels: [
+              {
+                itemStyle: {
+                  borderWidth: 0,
+                  gapWidth: 5
+                }
+              },
+              {
+                itemStyle: {
+                  gapWidth: 1
+                }
+              },
+              {
+                colorSaturation: [0.35, 0.5],
+                itemStyle: {
+                  gapWidth: 1,
+                  borderColorSaturation: 0.6
+                }
+              }
+            ],
             data: [],
-            // data: [
-            //   {
-            //     name: 'nodeA',
-            //     value: 10,
-            //     children: [
-            //       {
-            //         name: 'nodeAa',
-            //         value: 4
-            //       },
-            //       {
-            //         name: 'nodeAb',
-            //         value: 6
-            //       }
-            //     ]
-            //   },
-            //   {
-            //     name: 'nodeB',
-            //     value: 20,
-            //     children: [
-            //       {
-            //         name: 'nodeBa',
-            //         value: 20,
-            //         children: [
-            //           {
-            //             name: 'nodeBa1',
-            //             value: 20
-            //           }
-            //         ]
-            //       }
-            //     ]
-            //   }
-            // ]
           }
         ]
       },

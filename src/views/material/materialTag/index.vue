@@ -99,10 +99,7 @@
 
     <!-- 添加或修改物料标签模板对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="物料分类id" prop="categoryId">
-          <el-input v-model="form.categoryId" placeholder="请输入物料分类id" />
-        </el-form-item>
+      <el-form ref="form" :model="form" :rules="rules" label-width="98px">
         <el-form-item label="显示项类型" prop="fieldType">
           <el-select v-model="form.fieldType" placeholder="请选择显示项类型" clearable filterable>
             <el-option
@@ -114,7 +111,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="显示顺序号" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入显示顺序号" />
+          <el-input-number v-model="form.sort" controls-position="right" placeholder="请输入显示顺序号" />
         </el-form-item>
         <el-form-item label="说明" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入说明" />
