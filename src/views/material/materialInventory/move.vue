@@ -143,6 +143,7 @@ export default {
       form: {},
       rules: {
         moveQuantity: [
+          { required: true, message: "移出数量不能为空", trigger: "blur" },
           { type: 'number', min: 1, max: 65535, message: '移出数量必须为数字值且大小要在1到65535' },
         ]
       }
@@ -244,6 +245,8 @@ export default {
             this.msgSuccess("移库成功");
             this.$emit('onCancel');
           });
+        } else {
+          this.msgError('请检查相关必填字段')
         }
       });
     },
