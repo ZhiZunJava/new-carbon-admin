@@ -61,10 +61,6 @@
           <el-input v-model="form.materialName" placeholder="请选择产品">
             <el-button slot="append" @click="choose">选择</el-button>
           </el-input>
-
-        </el-form-item>
-        <el-form-item label="物料档案编号" prop="materialId">
-          <el-input v-model="form.materialId" placeholder="请输入物料档案编号" />
         </el-form-item>
         <el-form-item label="工艺名称" prop="processName">
           <el-input v-model="form.processName" placeholder="请输入工艺名称" />
@@ -89,7 +85,7 @@
 </template>
 
 <script>
-import { listProcessModel, getProcessModel, deleteProcessModel, addProcessModel, updateProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
+import { listProcessModel, getProcessModel, delProcessModel, addProcessModel, updateProcessModel, exportProcessModel } from "@/api/mesModel/processModel";
 import MaterialSelect from "@/components/Material/MaterialSelect.vue";
 export default {
   name: "ProcessModel",
@@ -245,7 +241,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(function () {
-        return deleteProcessModel(ids);
+        return delProcessModel(ids);
       }).then(() => {
         this.getList();
         this.msgSuccess("删除成功");
