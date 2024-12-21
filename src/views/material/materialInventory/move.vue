@@ -120,7 +120,9 @@
 </template>
 <script>
 import { getMaterialInventory } from '../../../api/material/materialInventory';
+import { listWarehouseLocation } from '../../../api/warehouse/warehouseLocation';
 import { moveWarehouseMove } from '../../../api/warehouse/warehouseMove';
+import { listWarehouseRegion } from '../../../api/warehouse/warehouseRegion';
 
 
 export default {

@@ -441,6 +441,7 @@ export default {
     },
     closeMove() {
       this.moveOpen = false;
+      this.getList()
     },
     /** 设置表格行的颜色 */
     tableRowClassName({ row, rowIndex }) {
