@@ -99,10 +99,10 @@
           <el-input v-model="form.freezeInventory" placeholder="请输入锁定库存" disabled />
         </el-form-item>
         <el-form-item label="库存上限" prop="maxInventory">
-          <el-input v-model="form.maxInventory" placeholder="请输入库存上限" />
+          <el-input v-model.number="form.maxInventory" placeholder="请输入库存上限" />
         </el-form-item>
         <el-form-item label="库存下限" prop="minInventory">
-          <el-input v-model="form.minInventory" placeholder="请输入库存下限" />
+          <el-input v-model.number="form.minInventory" placeholder="请输入库存下限" />
         </el-form-item>
         <el-divider content-position="center">仓库物料明细信息</el-divider>
         <el-row :gutter="10" class="mb8">
@@ -115,7 +115,7 @@
               @click="handleDeleteWmsWarehouseMaterialDetail">删除</el-button>
           </el-col>
         </el-row>
-        <el-table :data="wmsWarehouseMaterialDetailList" :row-class-name="rowWmsWarehouseMaterialDetailIndex"
+        <el-table :data="wmsWarehouseMaterialDetailList" max-height="350" :row-class-name="rowWmsWarehouseMaterialDetailIndex"
           @selection-change="handleWmsWarehouseMaterialDetailSelectionChange" ref="wmsWarehouseMaterialDetail">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="序号" align="center" prop="index" width="50" />
@@ -148,7 +148,7 @@
             <template slot-scope="scope">
               <el-form-item :prop="'wmsWarehouseMaterialDetailList.' + scope.$index + '.inventory'"
                 :rules="rules.inventory">
-                <el-input v-model="scope.row.inventory" placeholder="请输入现有库存" />
+                <el-input v-model.number="scope.row.inventory" placeholder="请输入现有库存" />
               </el-form-item>
             </template>
           </el-table-column>
