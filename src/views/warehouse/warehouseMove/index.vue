@@ -78,16 +78,16 @@
       <el-table-column label="编号" align="center" prop="id" />
       <el-table-column label="物料" align="center" prop="materialName" />
       <el-table-column label="源仓库" align="center" prop="sourceWarehouseId" :formatter="sourceWarehouseIdFormat" />
-      <el-table-column label="源库区" align="center" prop="sourceRegionId" />
-      <el-table-column label="源库位" align="center" prop="sourceLocationId" />
+      <el-table-column label="源库区" align="center" prop="sourceRegionName" />
+      <el-table-column label="源库位" align="center" prop="sourceLocationName" />
       <el-table-column label="批号" align="center" prop="batchNo" />
       <el-table-column label="目标仓库" align="center" prop="targetWarehouseId" :formatter="targetWarehouseIdFormat" />
-      <el-table-column label="目标库区" align="center" prop="targetRegionId" />
-      <el-table-column label="目标库位" align="center" prop="targetLocationId" />
+      <el-table-column label="目标库区" align="center" prop="targetRegionName" />
+      <el-table-column label="目标库位" align="center" prop="targetLocationName" />
       <el-table-column label="移出数量" align="center" prop="moveQuantity" />
       <el-table-column label="移库时间" align="center" prop="operateDate" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.operateDate, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.operateDate, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="执行人" align="center" prop="operateUser" :formatter="operateUserFormat" />
